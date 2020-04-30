@@ -1,0 +1,102 @@
+﻿@model Pizza.Api.Models.SaveModel.SaveCommandModel
+
+@{
+    ViewData["Title"] = "Nouvelle commande";
+}
+
+<h1>Enregistrement commande</h1>
+
+<h4>Nouvelle commande</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="display:flex">
+                <div style="margin-right:50px">
+                    <label asp-for="Num_Pizza" class="control-label">Choix Pizza</label>
+                    @Html.DropDownListFor(model => model.Num_Pizza, ViewBag.Num_Pizza as SelectList, new { @class = "form-control", @style = "width:350px" })
+                </div>
+                <div style="margin-right:50px">
+                    <label asp-for="Qte_Pizza" class="control-label">Quantité</label>
+                    @Html.DropDownListFor(model => model.Qte_Pizza, ViewBag.Qte_Pizza as SelectList, new { @class = "form-control" })
+                </div>
+                <div class="form-group" style="margin-top:31px">
+                    <input name="command" title="Ajouter une commande" type="submit" value="Ajouter une commande" class="btn btn-primary" />
+                </div>
+            </div>
+            <hr />
+            <h6>Récapitulatif commande</h6>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Pizza
+                        </th>
+                        <th>
+                            Quantité
+                        </th>
+                        <th>
+                            Total (€)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Ligne_Commandes != null && Model.Ligne_Commandes.Any())
+                    {
+                        foreach (var item in Model.Ligne_Commandes)
+                        {
+                            <tr>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(modelItem => item.Pizza.Nom_Pizza)
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(modelItem => item.Quantité)
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(modelItem => item.MontantTotalPizza)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Client.Nom_Cli" class="control-label"></label>
+                <input asp-for="Client.Nom_Cli" class="form-control" />
+                <span asp-validation-for="Client.Nom_Cli" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client.Adresse" class="control-label"></label>
+                <input asp-for="Client.Adresse" class="form-control" />
+                <span asp-validation-for="Client.Adresse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client.Num_Quartier" class="control-label"></label>
+                <select asp-for="Client.Num_Quartier" class="form-control" asp-items="ViewBag.Num_Quartier"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Livre_Emporte" class="control-label">
+                    @Html.RadioButtonFor(m => m.Livre_Emporte, false) À livrer
+
+                    @Html.RadioButtonFor(m => m.Livre_Emporte, true) À emporter
+                </label>
+                <span asp-validation-for="Livre_Emporte" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <input name="command" title="Enregistrer" type="submit" value="Commander" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Retour</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

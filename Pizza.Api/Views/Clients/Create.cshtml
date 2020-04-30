@@ -1,0 +1,42 @@
+﻿@model Pizza.Api.Models.SaveModel.SaveClientModel
+
+@{
+    ViewData["Title"] = "Création";
+}
+
+<h1>Création</h1>
+
+<h4>Client</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nom_Cli" class="control-label"></label>
+                <input asp-for="Nom_Cli" class="form-control" />
+                <span asp-validation-for="Nom_Cli" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adresse" class="control-label"></label>
+                <input asp-for="Adresse" class="form-control" />
+                <span asp-validation-for="Adresse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Num_Quartier" class="control-label"></label>
+                <select asp-for="Num_Quartier" class="form-control" asp-items="ViewBag.Num_Quartier"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Créer un client" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Retour</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

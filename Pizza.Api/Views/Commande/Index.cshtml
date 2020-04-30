@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Pizza.Api.Models.CommandViewModel>
+
+@{
+    ViewData["Title"] = "Commandes";
+}
+
+<h1>Commandes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Livre_Emporte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client.Adresse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client.Adresse.Quartier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_Cde)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.Nom_Cli)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LivreouEmporter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.Adresse.Adresse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.Adresse.Quartier.Nom_Quartier)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Cde)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+

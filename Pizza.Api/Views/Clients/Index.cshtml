@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Pizza.Api.Models.ClientViewModel>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<h1>Clients</h1>
+
+<p>
+    <a asp-action="Create">Créer un nouveau client</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom_Cli)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adresse)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom_Cli)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adresse.Adresse)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Détails</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
