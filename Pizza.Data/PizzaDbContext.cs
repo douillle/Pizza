@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Pizza.Core.Models;
 using Pizza.Data.Configurations;
 
 namespace Pizza.Data
 {
-    public class PizzaDbContext : DbContext
+    public class PizzaDbContext : IdentityDbContext<IdentityUser>
     {
         #region DbSet
         public DbSet<Client> Client { get; set; }
@@ -28,6 +30,7 @@ namespace Pizza.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
 
             builder
                 .ApplyConfiguration(new ClientConfiguration());

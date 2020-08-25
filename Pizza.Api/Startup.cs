@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,30 @@ namespace Pizza.Api
                 options.UseSqlServer(Configuration["ConnectionStrings:Default"], x =>
                 x.MigrationsAssembly("Pizza.Data")));
 
-            services.AddControllersWithViews();
+            #region Identity Services
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<PizzaDbContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+            }
+            );
+
+            #endregion
+
+            services.AddControllersWithViews()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "Identity");
+                });
+            services.AddRazorPages();
 
             services.AddMemoryCache();
             services.AddSession();
@@ -58,13 +82,16 @@ namespace Pizza.Api
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
